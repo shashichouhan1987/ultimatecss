@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resources | UltimateCSS Performance Agency</title>
+    <meta name="view-transition" content="same-origin">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
+    <link href="https://api.fontshare.com/v2/css?f[]=general-sans@400,500,600,700&f[]=satoshi@400,500,700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { display: ['General Sans', 'sans-serif'], body: ['Satoshi', 'sans-serif'] },
+                    colors: { accent: '#eb4242', brand: { black: '#000000', white: '#ffffff', gray: '#888888', light: '#f7f7f7' } },
+                    boxShadow: { 'premium': '0 20px 50px -12px rgba(0, 0, 0, 0.08)', 'card': '0 10px 40px -10px rgba(0, 0, 0, 0.05)' }
+                }
+            }
+        }
+    </script>
+    <style>
+        @view-transition { navigation: auto; }
+        html { background-color: #ffffff; }
+        ::view-transition-old(main-nav), ::view-transition-new(main-nav) { animation: none; mix-blend-mode: normal; }
+        ::view-transition-old(main-content) { animation: 0.25s ease-out both fade-out; }
+        ::view-transition-new(main-content) { animation: 0.25s ease-in 0.1s both fade-in; }
+        @keyframes fade-out { from { opacity: 1; } to { opacity: 0; } }
+        @keyframes fade-in { from { opacity: 0; } to { opacity: 1; } }
+
+        body { -webkit-font-smoothing: antialiased; background-color: #ffffff; color: #000000; }
+        .reveal { opacity: 0; transform: translateY(30px); transition: all 1s cubic-bezier(0.23, 1, 0.32, 1); }
+        .reveal.active { opacity: 1; transform: translateY(0); }
+
+        .nav-link { position: relative; transition: color 0.4s ease; }
+        .nav-link::after { content: ''; position: absolute; bottom: -4px; left: 0; width: 0%; height: 1px; background: #eb4242; transition: width 0.4s cubic-bezier(0.23, 1, 0.32, 1); }
+        .nav-link:hover::after, .nav-link.active::after { width: 100%; }
+
+        #custom-cursor { position: fixed; top: 0; left: 0; width: 44px; height: 44px; background: rgba(235, 66, 66, 0.12); border-radius: 50%; pointer-events: none; z-index: 9998; transition: scale 0.4s cubic-bezier(0.23, 1, 0.32, 1); transform: translate(-50%, -50%); backdrop-filter: blur(2px); }
+        #custom-cursor.cursor-hover { scale: 1.8; background: rgba(235, 66, 66, 0.22); }
+    </style>
+</head>
+<body class="font-body">
+    <div class="min-h-screen flex flex-col">
+        <!-- NAVIGATION -->
+        <nav class="fixed top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-xl border-b border-gray-50 transition-all duration-500" id="main-nav" style="view-transition-name: main-nav">
+            <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
+                <a href="index.html" class="flex items-center gap-2 group transition-transform hover:scale-105">
+                    <div class="w-8 h-8 rounded-full bg-accent flex items-center justify-center">
+                        <iconify-icon icon="lucide:rocket" class="text-white text-lg"></iconify-icon>
+                    </div>
+                    <span class="font-display font-bold text-xl tracking-tight">UltimateCSS</span>
+                </a>
+
+                <div class="hidden md:flex items-center gap-12 font-medium text-sm tracking-wide">
+                    <a href="about.html" class="nav-link hover:text-accent">About</a>
+                    <a href="case-studies.html" class="nav-link hover:text-accent">Case Studies</a>
+                    <a href="resources.html" class="nav-link active text-accent">Resources</a>
+                </div>
+
+                <div class="flex items-center gap-4">
+                    <a href="contact.html" class="bg-accent hover:bg-[#d12f2f] text-white px-8 py-3 rounded-full font-bold text-sm shadow-lg shadow-accent/20 transition-all hover:scale-105">
+                        Let's Chat
+                    </a>
+                </div>
+            </div>
+        </nav>
+
+        <!-- MAIN CONTENT -->
+        <main class="flex-grow pt-40 pb-48 px-6" style="view-transition-name: main-content">
+            <div class="max-w-7xl mx-auto">
+                <!-- HERO -->
+                <div class="max-w-3xl mb-32 reveal active">
+                    <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-brand-light text-accent font-bold text-[10px] uppercase tracking-widest mb-10">
+                        <span class="w-2 h-2 rounded-full bg-accent animate-pulse"></span>
+                        Free Knowledge Base
+                    </div>
+                    <h1 class="font-display font-bold text-6xl lg:text-7xl leading-[0.9] tracking-tighter mb-12">
+                        Resources for <span class="text-accent">growth-minded</span> teams.
+                    </h1>
+                    <p class="text-xl text-brand-gray font-light leading-relaxed">Guides, frameworks, and insights from our team — everything you need to build faster, convert better, and scale smarter.</p>
+                </div>
+
+                <!-- RESOURCE GRID -->
+                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-12">
+                    <article class="reveal group cursor-pointer">
+                        <div class="aspect-[16/10] rounded-[2rem] overflow-hidden mb-8 bg-brand-light">
+                            <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&q=80&w=800" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" alt="Core Web Vitals Guide">
+                        </div>
+                        <div class="px-2">
+                            <p class="text-[10px] font-bold text-accent uppercase tracking-widest mb-3">Performance</p>
+                            <h3 class="text-2xl font-display font-bold mb-4 tracking-tight group-hover:text-accent transition-colors">The Ultimate Core Web Vitals Guide for 2025</h3>
+                            <p class="text-brand-gray font-light leading-relaxed">Everything you need to achieve perfect Lighthouse scores on any platform — Webflow, WordPress, or custom.</p>
+                        </div>
+                    </article>
+
+                    <article class="reveal group cursor-pointer" style="transition-delay: 0.1s">
+                        <div class="aspect-[16/10] rounded-[2rem] overflow-hidden mb-8 bg-brand-light">
+                            <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&q=80&w=800" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" alt="CRO Framework">
+                        </div>
+                        <div class="px-2">
+                            <p class="text-[10px] font-bold text-accent uppercase tracking-widest mb-3">Conversion</p>
+                            <h3 class="text-2xl font-display font-bold mb-4 tracking-tight group-hover:text-accent transition-colors">Our 12-Step CRO Framework for B2B SaaS</h3>
+                            <p class="text-brand-gray font-light leading-relaxed">The exact conversion rate optimization process we use to 3–5X demo bookings for SaaS clients.</p>
+                        </div>
+                    </article>
+
+                    <article class="reveal group cursor-pointer" style="transition-delay: 0.2s">
+                        <div class="aspect-[16/10] rounded-[2rem] overflow-hidden mb-8 bg-brand-light">
+                            <img src="https://images.unsplash.com/photo-1542744094-3a31f272c490?auto=format&fit=crop&q=80&w=800" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" alt="Webflow vs WordPress">
+                        </div>
+                        <div class="px-2">
+                            <p class="text-[10px] font-bold text-accent uppercase tracking-widest mb-3">Strategy</p>
+                            <h3 class="text-2xl font-display font-bold mb-4 tracking-tight group-hover:text-accent transition-colors">Webflow vs WordPress: The 2025 Decision Matrix</h3>
+                            <p class="text-brand-gray font-light leading-relaxed">An objective breakdown of when to choose each platform based on your team size, budget, and growth goals.</p>
+                        </div>
+                    </article>
+
+                    <article class="reveal group cursor-pointer">
+                        <div class="aspect-[16/10] rounded-[2rem] overflow-hidden mb-8 bg-brand-light">
+                            <img src="https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&q=80&w=800" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" alt="Hero Section Patterns">
+                        </div>
+                        <div class="px-2">
+                            <p class="text-[10px] font-bold text-accent uppercase tracking-widest mb-3">Design</p>
+                            <h3 class="text-2xl font-display font-bold mb-4 tracking-tight group-hover:text-accent transition-colors">10 Hero Section Patterns That Actually Convert</h3>
+                            <p class="text-brand-gray font-light leading-relaxed">Real-world hero section breakdowns with A/B test data across 40+ landing pages.</p>
+                        </div>
+                    </article>
+
+                    <article class="reveal group cursor-pointer" style="transition-delay: 0.1s">
+                        <div class="aspect-[16/10] rounded-[2rem] overflow-hidden mb-8 bg-brand-light">
+                            <img src="https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&q=80&w=800" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" alt="Agency Briefing">
+                        </div>
+                        <div class="px-2">
+                            <p class="text-[10px] font-bold text-accent uppercase tracking-widest mb-3">Business</p>
+                            <h3 class="text-2xl font-display font-bold mb-4 tracking-tight group-hover:text-accent transition-colors">How to Brief a Web Agency (And Not Waste Money)</h3>
+                            <p class="text-brand-gray font-light leading-relaxed">The 1-page brief template we wish every client used before starting a project.</p>
+                        </div>
+                    </article>
+
+                    <article class="reveal group cursor-pointer" style="transition-delay: 0.2s">
+                        <div class="aspect-[16/10] rounded-[2rem] overflow-hidden mb-8 bg-brand-light">
+                            <img src="https://images.unsplash.com/photo-1517694712202-14dd9538aa97?auto=format&fit=crop&q=80&w=800" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" alt="Analytics Setup">
+                        </div>
+                        <div class="px-2">
+                            <p class="text-[10px] font-bold text-accent uppercase tracking-widest mb-3">Analytics</p>
+                            <h3 class="text-2xl font-display font-bold mb-4 tracking-tight group-hover:text-accent transition-colors">GA4 + Hotjar Setup Guide for Growth Teams</h3>
+                            <p class="text-brand-gray font-light leading-relaxed">The analytics stack we configure for every client to track real conversion data — not vanity metrics.</p>
+                        </div>
+                    </article>
+                </div>
+
+                <!-- NEWSLETTER CTA -->
+                <div class="mt-48 bg-brand-black rounded-[4rem] p-20 text-center text-white relative overflow-hidden reveal">
+                    <div class="relative z-10 max-w-2xl mx-auto">
+                        <p class="text-[11px] font-bold text-accent uppercase tracking-[0.3em] mb-6">Stay Sharp</p>
+                        <h2 class="font-display font-bold text-5xl lg:text-6xl mb-8 tracking-tighter">Get new resources <br>every two weeks.</h2>
+                        <p class="text-white/50 text-xl font-light mb-16">No fluff. Just actionable insights on performance, conversion, and digital strategy.</p>
+                        <div class="flex flex-col sm:flex-row gap-4 max-w-lg mx-auto">
+                            <input type="email" placeholder="your@email.com" class="flex-1 bg-white/10 border border-white/20 rounded-full px-8 py-5 text-white placeholder-white/40 outline-none focus:border-accent transition-colors text-lg">
+                            <button class="bg-accent hover:bg-[#d12f2f] text-white px-10 py-5 rounded-full font-bold text-lg transition-all hover:scale-105 whitespace-nowrap">Subscribe Free</button>
+                        </div>
+                    </div>
+                    <div class="absolute inset-0 bg-[radial-gradient(circle_at_center,_#eb4242_0%,_transparent_70%)] opacity-10"></div>
+                </div>
+            </div>
+        </main>
+
+        <!-- FOOTER -->
+        <footer class="py-24 bg-white border-t border-gray-100">
+            <div class="max-w-7xl mx-auto px-6">
+                <div class="grid md:grid-cols-4 gap-24 mb-32">
+                    <div class="col-span-1 md:col-span-2">
+                        <a href="index.html" class="flex items-center gap-3 mb-12">
+                            <div class="w-7 h-7 rounded-full bg-accent flex items-center justify-center">
+                                <iconify-icon icon="lucide:rocket" class="text-white text-base"></iconify-icon>
+                            </div>
+                            <span class="font-display font-bold text-2xl tracking-tight">UltimateCSS</span>
+                        </a>
+                        <p class="text-brand-gray text-2xl font-light leading-relaxed max-w-md">
+                            High-performance digital architecting focused on measurable growth and technical excellence.
+                        </p>
+                    </div>
+
+                    <div>
+                        <h4 class="font-bold mb-10 uppercase tracking-[0.4em] text-[10px] text-brand-gray">Navigation</h4>
+                        <ul class="space-y-6 font-medium text-sm">
+                            <li><a href="index.html" class="hover:text-accent transition-all">Home</a></li>
+                            <li><a href="about.html" class="hover:text-accent transition-all">About Us</a></li>
+                            <li><a href="case-studies.html" class="hover:text-accent transition-all">Case Studies</a></li>
+                            <li><a href="contact.html" class="hover:text-accent transition-all">Contact</a></li>
+                        </ul>
+                    </div>
+
+                    <div>
+                        <h4 class="font-bold mb-10 uppercase tracking-[0.4em] text-[10px] text-brand-gray">Contact</h4>
+                        <p class="text-xl font-light leading-relaxed">
+                            info@ultimatecss.com <br>
+                            +1 (555) 123-4567
+                        </p>
+                    </div>
+                </div>
+
+                <div class="pt-16 border-t border-gray-50 flex flex-col md:flex-row justify-between items-center gap-10">
+                    <p class="text-brand-gray text-[10px] tracking-[0.4em] uppercase font-bold">© 2025 UltimateCSS Agency. High-Performance Certified.</p>
+                    <div class="flex gap-12 text-brand-gray text-[10px] font-bold uppercase tracking-[0.3em]">
+                        <a href="#" class="hover:text-brand-black transition-colors">Privacy Policy</a>
+                        <a href="#" class="hover:text-brand-black transition-colors">Terms</a>
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <div id="custom-cursor"></div>
+
+    <script>
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('active'); });
+        }, { threshold: 0.15 });
+        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+        const cursor = document.getElementById('custom-cursor');
+        let mouseX = 0, mouseY = 0, cursorX = 0, cursorY = 0;
+        document.addEventListener('mousemove', (e) => { mouseX = e.clientX; mouseY = e.clientY; });
+        function animateCursor() {
+            cursorX += (mouseX - cursorX) * 0.15;
+            cursorY += (mouseY - cursorY) * 0.15;
+            cursor.style.left = cursorX + 'px';
+            cursor.style.top = cursorY + 'px';
+            requestAnimationFrame(animateCursor);
+        }
+        animateCursor();
+
+        document.querySelectorAll('a, button, article').forEach(el => {
+            el.addEventListener('mouseenter', () => cursor.classList.add('cursor-hover'));
+            el.addEventListener('mouseleave', () => cursor.classList.remove('cursor-hover'));
+        });
+
+        window.addEventListener('scroll', () => {
+            const nav = document.getElementById('main-nav');
+            if (window.scrollY > 50) { nav.classList.add('h-16'); nav.classList.remove('h-20'); }
+            else { nav.classList.remove('h-16'); nav.classList.add('h-20'); }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fintech Global | Case Study Detail | UltimateCSS</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
+    <link href="https://api.fontshare.com/v2/css?f[]=general-sans@400,500,600,700&f[]=satoshi@400,500,700&display=swap" rel="stylesheet">
+    <meta name="view-transition" content="same-origin">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { display: ['General Sans', 'sans-serif'], body: ['Satoshi', 'sans-serif'] },
+                    colors: { accent: '#eb4242', brand: { black: '#000000', white: '#ffffff', gray: '#888888', light: '#f7f7f7' } },
+                    boxShadow: { premium: '0 20px 50px -12px rgba(0, 0, 0, 0.08)', card: '0 10px 40px -10px rgba(0, 0, 0, 0.05)' }
+                }
+            }
+        }
+    </script>
+    <style>
+        @view-transition { navigation: auto; }
+        html { background-color: #ffffff; }
+        ::view-transition-old(main-nav), ::view-transition-new(main-nav) { animation: none; mix-blend-mode: normal; }
+        ::view-transition-old(main-content) { animation: 0.25s ease-out both fade-out; }
+        ::view-transition-new(main-content) { animation: 0.25s ease-in 0.1s both fade-in; }
+        @keyframes fade-out { from { opacity: 1; } to { opacity: 0; } }
+        @keyframes fade-in { from { opacity: 0; } to { opacity: 1; } }
+
+        .nav-link { position: relative; transition: color 0.4s ease; }
+        .nav-link::after { content: ''; position: absolute; bottom: -4px; left: 0; width: 0%; height: 1px; background: #eb4242; transition: width 0.4s cubic-bezier(0.23, 1, 0.32, 1); }
+        .nav-link:hover::after, .nav-link.active::after { width: 100%; }
+
+        .reveal { opacity: 0; transform: translateY(30px); transition: all 1s cubic-bezier(0.23, 1, 0.32, 1); }
+        .reveal.active { opacity: 1; transform: translateY(0); }
+
+        .sticky-box { position: sticky; top: 120px; }
+
+        #custom-cursor { position: fixed; top: 0; left: 0; width: 44px; height: 44px; background: rgba(235, 66, 66, 0.12); border-radius: 50%; pointer-events: none; z-index: 9998; transition: scale 0.4s cubic-bezier(0.23, 1, 0.32, 1); transform: translate(-50%, -50%); will-change: left, top; backdrop-filter: blur(2px); }
+        #custom-cursor.cursor-hover { scale: 1.8; background: rgba(235, 66, 66, 0.22); }
+    </style>
+</head>
+<body>
+    <div class="min-h-screen bg-white font-body text-brand-black">
+        <!-- NAVIGATION -->
+        <nav class="fixed top-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-xl border-b border-gray-50" id="main-nav" style="view-transition-name: main-nav">
+            <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
+                <a id="nav-home-logo" href="index.html" class="flex items-center gap-2 group transition-transform hover:scale-105">
+                    <div class="w-8 h-8 rounded-full bg-accent flex items-center justify-center">
+                        <iconify-icon icon="lucide:rocket" class="text-white text-lg"></iconify-icon>
+                    </div>
+                    <span class="font-display font-bold text-xl tracking-tight">UltimateCSS</span>
+                </a>
+                <div class="hidden md:flex items-center gap-12 font-medium text-sm tracking-wide">
+                    <a id="nav-about-link" href="about.html" class="nav-link">About Us</a>
+                    <a id="nav-case-studies-link" href="case-studies.html" class="nav-link active text-accent font-bold">Case Study</a>
+                    <a id="nav-resources-link" href="resources.html" class="nav-link">Resources</a>
+                </div>
+                <div class="flex items-center gap-4">
+                    <a id="nav-cta-contact" href="contact.html" class="bg-accent hover:bg-[#d12f2f] text-white px-8 py-3 rounded-full font-bold text-sm shadow-lg transition-all hover:scale-105 hover:-translate-y-1">Contact Us</a>
+                </div>
+            </div>
+        </nav>
+
+        <main style="view-transition-name: main-content">
+            <!-- HERO -->
+            <header class="pt-40 pb-20 px-6">
+                <div class="max-w-7xl mx-auto">
+                    <div class="flex flex-col gap-8 mb-16 reveal active">
+                        <div class="inline-flex w-fit items-center gap-2 px-4 py-1.5 rounded-full border border-gray-100 bg-brand-light text-accent font-bold text-[10px] uppercase tracking-widest">Fintech & Payments</div>
+                        <h1 class="font-display font-bold text-6xl lg:text-7xl tracking-tighter leading-[0.9]">Fintech Global: <br>The ROI Engine</h1>
+                    </div>
+                    <div class="aspect-[21/9] w-full rounded-[3rem] overflow-hidden reveal mb-20">
+                        <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&q=80&w=1600" class="w-full h-full object-cover" alt="Fintech Case Study Hero">
+                    </div>
+                    <div class="grid lg:grid-cols-4 gap-12 border-t border-gray-100 pt-16 reveal">
+                        <div class="space-y-4">
+                            <p class="text-[10px] uppercase font-bold text-brand-gray tracking-[0.3em]">Client</p>
+                            <p class="text-xl font-medium">Fintech Global Inc.</p>
+                        </div>
+                        <div class="space-y-4">
+                            <p class="text-[10px] uppercase font-bold text-brand-gray tracking-[0.3em]">Deliverables</p>
+                            <ul class="text-xl font-medium space-y-1">
+                                <li>Conversion Strategy</li>
+                                <li>UX/UI Architecture</li>
+                                <li>Webflow Engine</li>
+                            </ul>
+                        </div>
+                        <div class="space-y-4">
+                            <p class="text-[10px] uppercase font-bold text-brand-gray tracking-[0.3em]">Timeline</p>
+                            <p class="text-xl font-medium">12 Weeks</p>
+                        </div>
+                        <div class="space-y-4">
+                            <p class="text-[10px] uppercase font-bold text-brand-gray tracking-[0.3em]">Impact</p>
+                            <p class="text-4xl font-display font-bold text-accent">+210% ROI</p>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <!-- CHALLENGE SECTION -->
+            <section class="py-32 px-6 bg-brand-light">
+                <div class="max-w-7xl mx-auto">
+                    <div class="grid lg:grid-cols-12 gap-20">
+                        <div class="lg:col-span-5 sticky-box">
+                            <p class="text-[11px] font-bold text-accent uppercase tracking-[0.3em] mb-6">The Challenge</p>
+                            <h2 class="font-display font-bold text-5xl lg:text-6xl tracking-tighter mb-8 leading-tight">Complexity is the <br> Enemy of Conversion.</h2>
+                            <p class="text-xl text-brand-gray font-light leading-relaxed">Fintech Global had a powerful platform but a broken entry point. Users were bouncing due to technical jargon and a 4-second page load time. They didn't need a facelift; they needed a high-performance conversion machine that spoke to enterprise CFOs and individual traders alike.</p>
+                        </div>
+                        <div class="lg:col-span-7 space-y-12">
+                            <div class="aspect-square rounded-[3rem] overflow-hidden reveal shadow-premium">
+                                <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&q=80&w=1000" class="w-full h-full object-cover" alt="Project Detail 1">
+                            </div>
+                            <div class="aspect-[4/3] rounded-[3rem] overflow-hidden reveal shadow-premium">
+                                <img src="https://images.unsplash.com/photo-1542744094-3a31f272c490?auto=format&fit=crop&q=80&w=1000" class="w-full h-full object-cover" alt="Project Detail 2">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- QUOTE SECTION -->
+            <section class="py-40 px-6">
+                <div class="max-w-4xl mx-auto text-center reveal">
+                    <p class="text-[11px] font-bold text-accent uppercase tracking-[0.3em] mb-10">The Outcome</p>
+                    <h3 class="font-display font-bold text-4xl md:text-6xl tracking-tighter mb-16 italic font-light">"UltimateCSS didn't just design a site; they engineered a sales pipeline that tripled our demo bookings in the first quarter."</h3>
+                    <div class="flex items-center justify-center gap-4 text-left">
+                        <img src="https://randomuser.me/api/portraits/men/1.jpg" class="w-14 h-14 rounded-full" alt="Client Portrait">
+                        <div>
+                            <p class="font-bold">David Chen</p>
+                            <p class="text-xs text-brand-gray uppercase tracking-widest">Head of Growth, Fintech Global</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- PROJECT NAVIGATION -->
+            <section class="py-32 px-6 border-t border-gray-100">
+                <div class="max-w-7xl mx-auto">
+                    <div class="grid md:grid-cols-2 gap-8">
+                        <a id="prev-project-link" href="case-studies.html" class="group p-12 rounded-[3rem] border border-gray-100 bg-white hover:border-accent transition-all duration-500 flex flex-col justify-between aspect-video">
+                            <div class="text-[10px] font-bold uppercase tracking-[0.3em] text-brand-gray group-hover:text-accent transition-colors">← Back to Portfolio</div>
+                            <h4 class="font-display font-bold text-4xl group-hover:translate-x-4 transition-transform">All Case Studies</h4>
+                        </a>
+                        <a id="next-project-link" href="contact.html" class="group p-12 rounded-[3rem] bg-brand-black text-white hover:bg-accent transition-all duration-500 flex flex-col justify-between aspect-video">
+                            <div class="text-[10px] font-bold uppercase tracking-[0.3em] text-white/40">Start a Project</div>
+                            <h4 class="font-display font-bold text-4xl group-hover:translate-x-4 transition-transform">Let's Work Together</h4>
+                        </a>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- FOOTER -->
+        <footer class="py-24 bg-white border-t border-gray-100">
+            <div class="max-w-7xl mx-auto px-6">
+                <div class="grid md:grid-cols-4 gap-24 mb-32">
+                    <div class="col-span-1 md:col-span-2">
+                        <a id="footer-logo-link" href="index.html" class="flex items-center gap-3 mb-12">
+                            <div class="w-7 h-7 rounded-full bg-accent flex items-center justify-center">
+                                <iconify-icon icon="lucide:rocket" class="text-white text-base"></iconify-icon>
+                            </div>
+                            <span class="font-display font-bold text-2xl tracking-tight">UltimateCSS</span>
+                        </a>
+                        <p class="text-brand-gray text-2xl font-light leading-relaxed max-w-md">High-performance digital architecting focused on measurable growth.</p>
+                    </div>
+                    <div>
+                        <h4 class="font-bold mb-10 uppercase tracking-[0.4em] text-[10px] text-brand-gray">Navigation</h4>
+                        <ul class="space-y-6 font-medium text-sm">
+                            <li><a id="footer-nav-about" href="about.html" class="hover:text-accent">About Us</a></li>
+                            <li><a id="footer-nav-case" href="case-studies.html" class="hover:text-accent">Case Studies</a></li>
+                            <li><a id="footer-nav-contact" href="contact.html" class="hover:text-accent">Contact</a></li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4 class="font-bold mb-10 uppercase tracking-[0.4em] text-[10px] text-brand-gray">Stay Updated</h4>
+                        <p class="text-brand-gray mb-6 text-sm">Get the latest performance metrics & insights.</p>
+                        <a id="footer-subscribe-btn" href="contact.html" class="text-accent font-bold hover:underline">Join the ROI Newsletter</a>
+                    </div>
+                </div>
+                <div class="pt-16 border-t border-gray-50 flex flex-col md:flex-row justify-between items-center gap-10">
+                    <p class="text-brand-gray text-[10px] tracking-[0.4em] uppercase font-bold">© 2025 UltimateCSS Agency. High-Performance Certified.</p>
+                </div>
+            </div>
+        </footer>
+        <div id="custom-cursor"></div>
+    </div>
+
+    <script>
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('active'); });
+        }, { threshold: 0.1 });
+        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+        const cursor = document.getElementById('custom-cursor');
+        let mouseX = 0, mouseY = 0, cursorX = 0, cursorY = 0;
+        document.addEventListener('mousemove', (e) => { mouseX = e.clientX; mouseY = e.clientY; });
+        function animateCursor() {
+            cursorX += (mouseX - cursorX) * 0.15;
+            cursorY += (mouseY - cursorY) * 0.15;
+            cursor.style.left = cursorX + 'px';
+            cursor.style.top = cursorY + 'px';
+            requestAnimationFrame(animateCursor);
+        }
+        animateCursor();
+
+        document.querySelectorAll('a, button').forEach(el => {
+            el.addEventListener('mouseenter', () => cursor.classList.add('cursor-hover'));
+            el.addEventListener('mouseleave', () => cursor.classList.remove('cursor-hover'));
+        });
+    </script>
+</body>
+</html>
