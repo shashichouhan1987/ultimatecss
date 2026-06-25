@@ -1,0 +1,89 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    background-color: #ffffff;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  body {
+    background-color: #ffffff;
+    color: #000000;
+    overflow-x: hidden;
+  }
+}
+
+@layer components {
+  .nav-link {
+    @apply relative transition-colors duration-300;
+  }
+  .nav-link::after {
+    content: '';
+    @apply absolute left-0 bottom-[-4px] w-0 h-px bg-accent transition-all duration-300;
+  }
+  .nav-link:hover::after,
+  .nav-link.active::after {
+    @apply w-full;
+  }
+
+  .reveal {
+    opacity: 0;
+    transform: translateY(40px);
+    transition: opacity 1.2s cubic-bezier(0.23, 1, 0.32, 1),
+      transform 1.2s cubic-bezier(0.23, 1, 0.32, 1);
+    will-change: transform, opacity;
+  }
+  .reveal.active {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .stagger-child {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: all 0.8s cubic-bezier(0.23, 1, 0.32, 1);
+  }
+  .stagger-child.active {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  .stagger-child.active:nth-child(1) { transition-delay: 0.1s; }
+  .stagger-child.active:nth-child(2) { transition-delay: 0.2s; }
+  .stagger-child.active:nth-child(3) { transition-delay: 0.3s; }
+  .stagger-child.active:nth-child(4) { transition-delay: 0.4s; }
+  .stagger-child.active:nth-child(5) { transition-delay: 0.5s; }
+  .stagger-child.active:nth-child(6) { transition-delay: 0.6s; }
+
+  .project-card {
+    transition: transform 0.8s cubic-bezier(0.23, 1, 0.32, 1),
+      box-shadow 0.8s cubic-bezier(0.23, 1, 0.32, 1);
+  }
+  .project-image-wrap {
+    transition: transform 1.2s cubic-bezier(0.23, 1, 0.32, 1);
+    will-change: transform;
+  }
+  .project-card:hover .project-image-wrap {
+    transform: scale(1.1) rotate(1deg);
+  }
+
+  @keyframes scroll-up {
+    0% { transform: translateY(0); }
+    100% { transform: translateY(-50%); }
+  }
+  @keyframes scroll-down {
+    0% { transform: translateY(-50%); }
+    100% { transform: translateY(0); }
+  }
+  .carousel-track-up {
+    animation: scroll-up 40s linear infinite;
+  }
+  .carousel-track-down {
+    animation: scroll-down 40s linear infinite;
+  }
+  .carousel-mask {
+    -webkit-mask-image: linear-gradient(to bottom, transparent, black 10%, black 90%, transparent);
+    mask-image: linear-gradient(to bottom, transparent, black 10%, black 90%, transparent);
+  }
+}
