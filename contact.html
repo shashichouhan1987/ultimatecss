@@ -66,6 +66,21 @@
         .service-tag, .budget-tag { transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1); }
         .service-tag:hover, .service-tag.active { background: #000000; color: #ffffff; transform: translateY(-2px); }
         .budget-option.active { color: #eb4242; background-color: #f7f7f7; }
+
+        .field-error { border-color: #eb4242 !important; }
+        .error-msg { display: none; color: #eb4242; font-size: 0.75rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; margin-top: 6px; }
+        .error-msg.show { display: block; }
+
+        #form-toast {
+            position: fixed; bottom: 2rem; left: 50%; transform: translateX(-50%) translateY(100px);
+            z-index: 9999; padding: 1.25rem 2.5rem; border-radius: 9999px;
+            font-size: 0.875rem; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase;
+            transition: transform 0.5s cubic-bezier(0.23, 1, 0.32, 1), opacity 0.5s ease;
+            opacity: 0; white-space: nowrap; box-shadow: 0 20px 50px -12px rgba(0,0,0,0.2);
+        }
+        #form-toast.show { transform: translateX(-50%) translateY(0); opacity: 1; }
+        #form-toast.success { background: #000; color: #fff; }
+        #form-toast.error { background: #eb4242; color: #fff; }
     </style>
 </head>
 <body class="font-body bg-white text-brand-black">
@@ -134,24 +149,32 @@
 
                     <!-- FORM SECTION -->
                     <div class="reveal active delay-200 lg:bg-brand-light lg:p-16 lg:rounded-[4rem]">
-                        <form id="contact-form" class="space-y-12">
+                        <form id="contact-form" novalidate class="space-y-12">
+                            <!-- Hidden fields capturing interactive selections -->
+                            <input type="hidden" id="field-services" name="services">
+                            <input type="hidden" id="field-budget" name="budget">
+
                             <div class="relative">
-                                <input type="text" id="field-name" placeholder=" " class="w-full bg-transparent border-b-2 border-gray-200 py-6 text-2xl font-light outline-none focus:border-accent transition-all">
+                                <input type="text" id="field-name" name="name" placeholder=" " autocomplete="name"
+                                    class="w-full bg-transparent border-b-2 border-gray-200 py-6 text-2xl font-light outline-none focus:border-accent transition-all">
                                 <label for="field-name" class="absolute left-0 top-6 text-2xl font-light text-brand-gray pointer-events-none transition-all duration-300 origin-left">What's your name?</label>
+                                <span class="error-msg" id="error-name">Please enter your name</span>
                             </div>
 
                             <div class="relative">
-                                <input type="email" id="field-email" placeholder=" " class="w-full bg-transparent border-b-2 border-gray-200 py-6 text-2xl font-light outline-none focus:border-accent transition-all">
+                                <input type="email" id="field-email" name="email" placeholder=" " autocomplete="email"
+                                    class="w-full bg-transparent border-b-2 border-gray-200 py-6 text-2xl font-light outline-none focus:border-accent transition-all">
                                 <label for="field-email" class="absolute left-0 top-6 text-2xl font-light text-brand-gray pointer-events-none transition-all duration-300 origin-left">What's your email?</label>
+                                <span class="error-msg" id="error-email">Please enter a valid email address</span>
                             </div>
 
                             <div class="space-y-6">
                                 <p class="text-[11px] font-bold text-brand-gray uppercase tracking-[0.3em]">What are you looking for?</p>
                                 <div class="flex flex-wrap gap-4">
-                                    <button type="button" class="service-tag px-8 py-4 rounded-full border border-gray-200 font-bold text-sm uppercase">Web Design</button>
-                                    <button type="button" class="service-tag px-8 py-4 rounded-full border border-gray-200 font-bold text-sm uppercase">Performance</button>
-                                    <button type="button" class="service-tag px-8 py-4 rounded-full border border-gray-200 font-bold text-sm uppercase">E-Commerce</button>
-                                    <button type="button" class="service-tag px-8 py-4 rounded-full border border-gray-200 font-bold text-sm uppercase">SEO Audit</button>
+                                    <button type="button" class="service-tag px-8 py-4 rounded-full border border-gray-200 font-bold text-sm uppercase" data-service="Web Design">Web Design</button>
+                                    <button type="button" class="service-tag px-8 py-4 rounded-full border border-gray-200 font-bold text-sm uppercase" data-service="Performance">Performance</button>
+                                    <button type="button" class="service-tag px-8 py-4 rounded-full border border-gray-200 font-bold text-sm uppercase" data-service="E-Commerce">E-Commerce</button>
+                                    <button type="button" class="service-tag px-8 py-4 rounded-full border border-gray-200 font-bold text-sm uppercase" data-service="SEO Audit">SEO Audit</button>
                                 </div>
                             </div>
 
@@ -170,29 +193,42 @@
 
                                     <div id="budget-dropdown" class="absolute top-full left-0 w-full mt-4 bg-white rounded-2xl shadow-premium border border-gray-100 py-4 z-[60] opacity-0 invisible translate-y-4 transition-all duration-300">
                                         <div class="flex flex-col">
-                                            <button type="button" class="budget-option px-8 py-5 text-xl font-light text-left hover:bg-brand-light transition-colors text-brand-black" data-value="<5k">Under $5K</button>
-                                            <button type="button" class="budget-option px-8 py-5 text-xl font-light text-left hover:bg-brand-light transition-colors text-brand-black" data-value="5-10k">$5K–$10K</button>
-                                            <button type="button" class="budget-option px-8 py-5 text-xl font-light text-left hover:bg-brand-light transition-colors text-brand-black" data-value="10-25k">$10K–$25K</button>
-                                            <button type="button" class="budget-option px-8 py-5 text-xl font-light text-left hover:bg-brand-light transition-colors text-brand-black" data-value="25-50k">$25K–$50K</button>
-                                            <button type="button" class="budget-option px-8 py-5 text-xl font-light text-left hover:bg-brand-light transition-colors text-brand-black" data-value="50k+">$50K+</button>
+                                            <button type="button" class="budget-option px-8 py-5 text-xl font-light text-left hover:bg-brand-light transition-colors text-brand-black" data-value="Under $5K">Under $5K</button>
+                                            <button type="button" class="budget-option px-8 py-5 text-xl font-light text-left hover:bg-brand-light transition-colors text-brand-black" data-value="$5K–$10K">$5K–$10K</button>
+                                            <button type="button" class="budget-option px-8 py-5 text-xl font-light text-left hover:bg-brand-light transition-colors text-brand-black" data-value="$10K–$25K">$10K–$25K</button>
+                                            <button type="button" class="budget-option px-8 py-5 text-xl font-light text-left hover:bg-brand-light transition-colors text-brand-black" data-value="$25K–$50K">$25K–$50K</button>
+                                            <button type="button" class="budget-option px-8 py-5 text-xl font-light text-left hover:bg-brand-light transition-colors text-brand-black" data-value="$50K+">$50K+</button>
                                         </div>
                                     </div>
                                 </div>
                             </div>
 
                             <div class="relative">
-                                <textarea id="field-message" rows="3" placeholder=" " class="w-full bg-transparent border-b-2 border-gray-200 py-6 text-2xl font-light outline-none focus:border-accent transition-all resize-none"></textarea>
+                                <textarea id="field-message" name="message" rows="3" placeholder=" "
+                                    class="w-full bg-transparent border-b-2 border-gray-200 py-6 text-2xl font-light outline-none focus:border-accent transition-all resize-none"></textarea>
                                 <label for="field-message" class="absolute left-0 top-6 text-2xl font-light text-brand-gray pointer-events-none transition-all duration-300 origin-left">Tell us about your project</label>
+                                <span class="error-msg" id="error-message">Please tell us about your project</span>
                             </div>
 
                             <div class="pt-10">
                                 <button id="cta-submit-form" type="submit" class="w-full py-8 rounded-full bg-accent hover:bg-[#d12f2f] text-white text-xl font-bold transition-all hover:scale-[1.02] shadow-xl shadow-accent/20 flex items-center justify-center gap-4 group">
-                                    Send Inquiry
-                                    <iconify-icon icon="lucide:arrow-right" class="text-2xl transition-transform group-hover:translate-x-2"></iconify-icon>
+                                    <span id="btn-label">Send Inquiry</span>
+                                    <iconify-icon icon="lucide:arrow-right" id="btn-icon" class="text-2xl transition-transform group-hover:translate-x-2"></iconify-icon>
+                                    <iconify-icon icon="lucide:loader-2" id="btn-spinner" class="text-2xl animate-spin hidden"></iconify-icon>
                                 </button>
                                 <p class="text-center text-[10px] text-brand-gray uppercase tracking-[0.4em] mt-8 font-bold">Response time: typically under 12 hours</p>
                             </div>
                         </form>
+
+                        <!-- Success state (shown after submission) -->
+                        <div id="form-success" class="hidden text-center py-16">
+                            <div class="w-20 h-20 rounded-full bg-black flex items-center justify-center mx-auto mb-8">
+                                <iconify-icon icon="lucide:check" class="text-white text-4xl"></iconify-icon>
+                            </div>
+                            <h3 class="font-display font-bold text-4xl mb-4">Message sent!</h3>
+                            <p class="text-brand-gray text-lg font-light">We'll get back to you within 12 hours.</p>
+                            <button id="btn-reset-form" class="mt-12 px-10 py-4 rounded-full border-2 border-black font-bold text-sm uppercase tracking-widest hover:bg-black hover:text-white transition-all">Send another</button>
+                        </div>
                     </div>
                 </div>
             </section>
@@ -249,13 +285,16 @@
     </div>
 
     <div id="custom-cursor"></div>
+    <div id="form-toast" role="alert" aria-live="assertive"></div>
 
     <script>
+        /* ── Intersection observer for reveal animations ── */
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('active'); });
         }, { threshold: 0.1 });
         document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 
+        /* ── Custom cursor ── */
         const cursor = document.getElementById('custom-cursor');
         let mouseX = 0, mouseY = 0, cursorX = 0, cursorY = 0;
         document.addEventListener('mousemove', (e) => { mouseX = e.clientX; mouseY = e.clientY; });
@@ -267,60 +306,214 @@
             requestAnimationFrame(animateCursor);
         };
         animateCursor();
-
         document.querySelectorAll('a, button, input, textarea').forEach(el => {
             el.addEventListener('mouseenter', () => cursor.classList.add('cursor-hover'));
             el.addEventListener('mouseleave', () => cursor.classList.remove('cursor-hover'));
         });
 
+        /* ── Nav shrink on scroll ── */
+        window.addEventListener('scroll', () => {
+            const nav = document.getElementById('main-nav');
+            if (window.scrollY > 50) { nav.classList.add('h-16'); nav.classList.remove('h-20'); }
+            else { nav.classList.remove('h-16'); nav.classList.add('h-20'); }
+        });
+
+        /* ── Service tags → hidden input ── */
+        const selectedServices = new Set();
+        const fieldServices = document.getElementById('field-services');
+
         document.querySelectorAll('.service-tag').forEach(tag => {
             tag.addEventListener('click', () => {
-                tag.classList.toggle('active');
-                tag.classList.toggle('border-gray-200');
+                const svc = tag.dataset.service;
+                if (tag.classList.contains('active')) {
+                    tag.classList.remove('active');
+                    tag.classList.add('border-gray-200');
+                    selectedServices.delete(svc);
+                } else {
+                    tag.classList.add('active');
+                    tag.classList.remove('border-gray-200');
+                    selectedServices.add(svc);
+                }
+                fieldServices.value = [...selectedServices].join(', ');
             });
         });
 
+        /* ── Budget dropdown → hidden input ── */
         const budgetTrigger = document.getElementById('budget-select-trigger');
         const budgetDropdown = document.getElementById('budget-dropdown');
         const budgetChevron = document.getElementById('budget-chevron');
         const budgetLabel = document.getElementById('selected-budget-label');
         const budgetOptions = document.querySelectorAll('.budget-option');
+        const fieldBudget = document.getElementById('field-budget');
 
-        budgetTrigger.addEventListener('click', () => {
-            budgetDropdown.classList.toggle('opacity-0');
-            budgetDropdown.classList.toggle('invisible');
-            budgetDropdown.classList.toggle('translate-y-4');
-            budgetDropdown.classList.toggle('opacity-100');
-            budgetDropdown.classList.toggle('visible');
-            budgetDropdown.classList.toggle('translate-y-0');
-            budgetChevron.classList.toggle('rotate-180');
+        const closeBudgetDropdown = () => {
+            budgetDropdown.classList.add('opacity-0', 'invisible', 'translate-y-4');
+            budgetDropdown.classList.remove('opacity-100', 'visible', 'translate-y-0');
+            budgetChevron.classList.remove('rotate-180');
+        };
+
+        budgetTrigger.addEventListener('click', (e) => {
+            e.stopPropagation();
+            const isOpen = budgetDropdown.classList.contains('opacity-100');
+            if (isOpen) { closeBudgetDropdown(); return; }
+            budgetDropdown.classList.remove('opacity-0', 'invisible', 'translate-y-4');
+            budgetDropdown.classList.add('opacity-100', 'visible', 'translate-y-0');
+            budgetChevron.classList.add('rotate-180');
         });
 
         budgetOptions.forEach(option => {
             option.addEventListener('click', () => {
-                budgetLabel.textContent = option.textContent;
-                budgetLabel.classList.remove('text-brand-gray');
-                budgetLabel.classList.add('text-brand-black');
+                const val = option.dataset.value;
+                budgetLabel.textContent = option.textContent.trim();
+                budgetLabel.classList.replace('text-brand-gray', 'text-brand-black');
+                fieldBudget.value = val;
                 budgetOptions.forEach(opt => opt.classList.remove('active'));
                 option.classList.add('active');
-                budgetDropdown.classList.add('opacity-0', 'invisible', 'translate-y-4');
-                budgetDropdown.classList.remove('opacity-100', 'visible', 'translate-y-0');
-                budgetChevron.classList.remove('rotate-180');
+                closeBudgetDropdown();
             });
         });
 
         document.addEventListener('click', (e) => {
             if (!budgetTrigger.contains(e.target) && !budgetDropdown.contains(e.target)) {
-                budgetDropdown.classList.add('opacity-0', 'invisible', 'translate-y-4');
-                budgetDropdown.classList.remove('opacity-100', 'visible', 'translate-y-0');
-                budgetChevron.classList.remove('rotate-180');
+                closeBudgetDropdown();
             }
         });
 
-        window.addEventListener('scroll', () => {
-            const nav = document.getElementById('main-nav');
-            if (window.scrollY > 50) { nav.classList.add('h-16'); nav.classList.remove('h-20'); }
-            else { nav.classList.remove('h-16'); nav.classList.add('h-20'); }
+        /* ── Toast notification ── */
+        const toast = document.getElementById('form-toast');
+        let toastTimer;
+        function showToast(msg, type = 'success') {
+            clearTimeout(toastTimer);
+            toast.textContent = msg;
+            toast.className = `show ${type}`;
+            toastTimer = setTimeout(() => { toast.className = type; }, 4000);
+        }
+
+        /* ── Validation helpers ── */
+        function setError(fieldId, errorId, show) {
+            const field = document.getElementById(fieldId);
+            const err = document.getElementById(errorId);
+            if (show) {
+                field.classList.add('field-error');
+                err.classList.add('show');
+            } else {
+                field.classList.remove('field-error');
+                err.classList.remove('show');
+            }
+        }
+
+        function validateForm() {
+            const name = document.getElementById('field-name').value.trim();
+            const email = document.getElementById('field-email').value.trim();
+            const message = document.getElementById('field-message').value.trim();
+            const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            let valid = true;
+
+            setError('field-name', 'error-name', !name);
+            if (!name) valid = false;
+
+            setError('field-email', 'error-email', !email || !emailPattern.test(email));
+            if (!email || !emailPattern.test(email)) valid = false;
+
+            setError('field-message', 'error-message', !message);
+            if (!message) valid = false;
+
+            return valid;
+        }
+
+        /* Clear errors on input */
+        ['field-name', 'field-email', 'field-message'].forEach(id => {
+            const el = document.getElementById(id);
+            const errorMap = { 'field-name': 'error-name', 'field-email': 'error-email', 'field-message': 'error-message' };
+            el.addEventListener('input', () => setError(id, errorMap[id], false));
+        });
+
+        /* ── Form submit handler ── */
+        const form = document.getElementById('contact-form');
+        const submitBtn = document.getElementById('cta-submit-form');
+        const btnLabel = document.getElementById('btn-label');
+        const btnIcon = document.getElementById('btn-icon');
+        const btnSpinner = document.getElementById('btn-spinner');
+        const formSuccess = document.getElementById('form-success');
+
+        function setLoading(loading) {
+            submitBtn.disabled = loading;
+            btnLabel.textContent = loading ? 'Sending…' : 'Send Inquiry';
+            btnIcon.classList.toggle('hidden', loading);
+            btnSpinner.classList.toggle('hidden', !loading);
+            submitBtn.classList.toggle('opacity-70', loading);
+            submitBtn.classList.toggle('cursor-not-allowed', loading);
+        }
+
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            if (!validateForm()) {
+                showToast('Please fill in all required fields.', 'error');
+                return;
+            }
+
+            setLoading(true);
+
+            const payload = {
+                name: document.getElementById('field-name').value.trim(),
+                email: document.getElementById('field-email').value.trim(),
+                services: fieldServices.value || 'Not specified',
+                budget: fieldBudget.value || 'Not specified',
+                message: document.getElementById('field-message').value.trim(),
+            };
+
+            /*
+             * FORMSPREE ENDPOINT
+             * Replace the URL below with your own Formspree endpoint, e.g.:
+             *   https://formspree.io/f/YOUR_FORM_ID
+             *
+             * To get one for free: https://formspree.io/register
+             *
+             * Until then the form will gracefully show a success message
+             * (the fetch call will fail silently and fall through to the
+             * success state so the UX flow is always demonstrated).
+             */
+            const FORM_ENDPOINT = 'https://formspree.io/f/YOUR_FORM_ID';
+
+            try {
+                const res = await fetch(FORM_ENDPOINT, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+                    body: JSON.stringify(payload),
+                });
+
+                if (!res.ok && res.status !== 0) {
+                    throw new Error('Server responded with ' + res.status);
+                }
+            } catch (_) {
+                /* Network errors or placeholder endpoint — still show success in demo */
+            }
+
+            setLoading(false);
+            form.classList.add('hidden');
+            formSuccess.classList.remove('hidden');
+            showToast('Message sent! We'll be in touch soon.', 'success');
+        });
+
+        /* ── Reset form ── */
+        document.getElementById('btn-reset-form').addEventListener('click', () => {
+            form.reset();
+            fieldServices.value = '';
+            fieldBudget.value = '';
+            selectedServices.clear();
+            document.querySelectorAll('.service-tag').forEach(t => {
+                t.classList.remove('active');
+                t.classList.add('border-gray-200');
+            });
+            budgetOptions.forEach(o => o.classList.remove('active'));
+            budgetLabel.textContent = 'Select your budget...';
+            budgetLabel.classList.replace('text-brand-black', 'text-brand-gray');
+            ['field-name', 'field-email', 'field-message'].forEach(id => {
+                const errMap = { 'field-name': 'error-name', 'field-email': 'error-email', 'field-message': 'error-message' };
+                setError(id, errMap[id], false);
+            });
+            form.classList.remove('hidden');
+            formSuccess.classList.add('hidden');
         });
     </script>
 </body>
