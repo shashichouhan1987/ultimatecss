@@ -11,11 +11,11 @@
 // ======================= CONFIGURATION =======================
 
 // The Gmail address that should receive the notification emails.
-var NOTIFY_EMAIL = 'your-email@gmail.com';
+var NOTIFY_EMAIL = 'ultimatecss1987@gmail.com';
 
 // ID of the Google Sheet used to store submissions. It is the long
 // string in the sheet URL: https://docs.google.com/spreadsheets/d/<SHEET_ID>/edit
-var SHEET_ID = 'PASTE_YOUR_GOOGLE_SHEET_ID_HERE';
+var SHEET_ID = '1niTQSzwXh4lIgugq-2aax2ON4TBBftnONTZZXXXAWzw';
 
 // Name of the tab inside the sheet where rows are appended.
 var SHEET_TAB = 'Submissions';
