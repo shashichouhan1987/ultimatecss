@@ -186,10 +186,11 @@
                             </div>
 
                             <div class="pt-10">
-                                <button id="cta-submit-form" type="submit" class="w-full py-8 rounded-full bg-accent hover:bg-[#d12f2f] text-white text-xl font-bold transition-all hover:scale-[1.02] shadow-xl shadow-accent/20 flex items-center justify-center gap-4 group">
-                                    Send Inquiry
-                                    <iconify-icon icon="lucide:arrow-right" class="text-2xl transition-transform group-hover:translate-x-2"></iconify-icon>
+                                <button id="cta-submit-form" type="submit" class="w-full py-8 rounded-full bg-accent hover:bg-[#d12f2f] text-white text-xl font-bold transition-all hover:scale-[1.02] shadow-xl shadow-accent/20 flex items-center justify-center gap-4 group disabled:opacity-60 disabled:cursor-not-allowed disabled:hover:scale-100">
+                                    <span id="submit-label">Send Inquiry</span>
+                                    <iconify-icon icon="lucide:arrow-right" id="submit-icon" class="text-2xl transition-transform group-hover:translate-x-2"></iconify-icon>
                                 </button>
+                                <div id="form-status" class="hidden mt-8 p-6 rounded-2xl text-base font-medium" role="alert"></div>
                                 <p class="text-center text-[10px] text-brand-gray uppercase tracking-[0.4em] mt-8 font-bold">Response time: typically under 12 hours</p>
                             </div>
                         </form>
@@ -321,6 +322,79 @@
             const nav = document.getElementById('main-nav');
             if (window.scrollY > 50) { nav.classList.add('h-16'); nav.classList.remove('h-20'); }
             else { nav.classList.remove('h-16'); nav.classList.add('h-20'); }
+        });
+
+        // ============================================================
+        // CONTACT FORM SUBMISSION (Gmail notification + Google Sheets)
+        //
+        // Paste your Google Apps Script Web App URL below. Follow the
+        // step-by-step instructions in CONTACT_FORM_SETUP.md to create
+        // it (free, ~5 minutes). It emails you on every submission and
+        // saves each record to a Google Sheet.
+        // ============================================================
+        const CONTACT_FORM_ENDPOINT = 'PASTE_YOUR_APPS_SCRIPT_WEB_APP_URL_HERE';
+
+        const contactForm = document.getElementById('contact-form');
+        const submitBtn = document.getElementById('cta-submit-form');
+        const submitLabel = document.getElementById('submit-label');
+        const formStatus = document.getElementById('form-status');
+
+        function showStatus(message, isSuccess) {
+            formStatus.textContent = message;
+            formStatus.classList.remove('hidden', 'bg-green-50', 'text-green-700', 'bg-red-50', 'text-red-700');
+            formStatus.classList.add(isSuccess ? 'bg-green-50' : 'bg-red-50', isSuccess ? 'text-green-700' : 'text-red-700');
+        }
+
+        contactForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const name = document.getElementById('field-name').value.trim();
+            const email = document.getElementById('field-email').value.trim();
+            const message = document.getElementById('field-message').value.trim();
+            const services = Array.from(document.querySelectorAll('.service-tag.active')).map(t => t.textContent.trim());
+            const activeBudget = document.querySelector('.budget-option.active');
+            const budget = activeBudget ? activeBudget.textContent.trim() : '';
+
+            if (!name || !email || !message) {
+                showStatus('Please fill in your name, email and project details before sending.', false);
+                return;
+            }
+            if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+                showStatus('Please enter a valid email address.', false);
+                return;
+            }
+            if (CONTACT_FORM_ENDPOINT.startsWith('PASTE_')) {
+                showStatus('Form is not connected yet. Add your Apps Script URL in contact.html (see CONTACT_FORM_SETUP.md).', false);
+                return;
+            }
+
+            submitBtn.disabled = true;
+            submitLabel.textContent = 'Sending...';
+
+            try {
+                // Content-Type text/plain avoids a CORS preflight, which
+                // Google Apps Script web apps do not support.
+                const res = await fetch(CONTACT_FORM_ENDPOINT, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+                    body: JSON.stringify({ name, email, services, budget, message, page: location.href })
+                });
+                const data = await res.json();
+                if (!res.ok || data.status !== 'success') throw new Error(data.message || 'Submission failed');
+
+                showStatus("Thanks " + name + "! Your inquiry has been sent — we'll get back to you within 12 hours.", true);
+                contactForm.reset();
+                document.querySelectorAll('.service-tag.active').forEach(t => { t.classList.remove('active'); t.classList.add('border-gray-200'); });
+                document.querySelectorAll('.budget-option.active').forEach(o => o.classList.remove('active'));
+                budgetLabel.textContent = 'Select your budget...';
+                budgetLabel.classList.add('text-brand-gray');
+                budgetLabel.classList.remove('text-brand-black');
+            } catch (err) {
+                showStatus('Something went wrong sending your inquiry. Please try again, or email us directly at hello@ultimatecss.com.', false);
+            } finally {
+                submitBtn.disabled = false;
+                submitLabel.textContent = 'Send Inquiry';
+            }
         });
     </script>
 </body>
